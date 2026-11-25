@@ -1,0 +1,1 @@
+{"name":"fleetforward-defense","version":"1.0.0","private":true,"dependencies":{"docx":"^9.16.0","pptxgenjs":"^4.0.1","puppeteer-core":"^25.18.1"}}

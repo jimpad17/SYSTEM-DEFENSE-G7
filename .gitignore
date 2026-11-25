@@ -1,0 +1,15 @@
+# Dependencies / large local tooling
+node_modules/
+cloudflared.exe
+
+# Runtime / transient state
+.shared-state.json
+public-link.log
+public-link.log.err
+public-link.err
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

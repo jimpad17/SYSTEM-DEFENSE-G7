@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FleetForward — GreenLeaf Logistics Fleet Control</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ICONS -->
+<svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6ZM9 3v15M15 6v15"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="5" cy="18" r="2"/><circle cx="19" cy="6" r="2"/><path d="M7 18h6a4 4 0 0 0 0-8h-2a4 4 0 0 1 0-8h6"/></symbol>
+  <symbol id="i-dispatch" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M8 5v5M16 5v5M7 15h3M14 15h3"/></symbol>
+  <symbol id="i-fuel" viewBox="0 0 24 24"><path d="M4 21V5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v16M3 21h13M6 8h7M17 9l3 3v6a2 2 0 0 1-4 0v-4"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M10 18h4"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24"><path d="M2 7h11v10H2zM13 10h4l4 4v3h-8z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="m7 4 13 8-13 8V4Z"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v3h16v-3"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 6M20 4v7h-7"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20L12 3ZM12 9v5M12 17.5v.01"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-nav" viewBox="0 0 24 24"><path d="m3 11 18-8-8 18-2-8-8-2Z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C9 4 4 9 4 16c0 2 1 4 1 4s7 1 12-4c3-3 4-8 3-12ZM5 20c3-5 7-8 12-11"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 15v2"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M15 16l4-4-4-4M19 12H9"/></symbol>
+</svg>
+
+<!-- ===== ADMIN LOGIN ===== -->
+<div id="loginOverlay" class="login-overlay">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="brand-mark"><svg><use href="#i-leaf"/></svg></div>
+      <div><strong>Fleet<span>Forward</span></strong><small>GREENLEAF LOGISTICS · FLEET CONTROL</small></div>
+    </div>
+
+    <div class="role-tabs" role="tablist" aria-label="Login role">
+      <button class="role-tab active" type="button" data-role="admin">Admin</button>
+      <button class="role-tab" type="button" data-role="driver">Driver</button>
+    </div>
+
+    <div class="login-head">
+      <span class="banner-kicker" id="loginKicker">ADMIN ACCESS</span>
+      <h2 id="loginTitle">Welcome back</h2>
+      <p id="loginDesc">Sign in to open the fleet control dashboard.</p>
+    </div>
+
+    <form id="loginForm" class="login-form" autocomplete="off" novalidate>
+      <label for="loginEmail">Email address</label>
+      <div class="login-input"><svg><use href="#i-user"/></svg><input id="loginEmail" type="email" placeholder="admin" spellcheck="false"></div>
+      <label for="loginPass">Password</label>
+      <div class="login-input"><svg><use href="#i-lock"/></svg><input id="loginPass" type="password" placeholder="Enter your password"></div>
+      <button class="btn btn-primary login-submit" type="submit" id="loginSubmit"><svg><use href="#i-lock"/></svg> Login as Admin</button>
+      <p id="loginError" class="login-error" role="alert"></p>
+    </form>
+
+    <div class="demo-creds">
+      <span class="demo-kicker">DEMO ADMIN ACCOUNT — FOR PRESENTATION</span>
+      <div class="cred-row"><span>Email</span><code id="demoEmail">admin</code></div>
+      <div class="cred-row"><span>Password</span><code id="demoPass">admin123</code></div>
+      <button class="link-btn" id="fillCreds" type="button">Use this demo account →</button>
+    </div>
+  </div>
+</div>
+
+<div class="app-shell">
+
+  <aside id="sidebar" class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><svg><use href="#i-leaf"/></svg></div>
+      <div><strong>Fleet<span>Forward</span></strong><small>GREENLEAF LOGISTICS</small></div>
+    </div>
+    <nav class="nav" id="nav">
+      <button class="nav-item active" data-view="map"><svg><use href="#i-map"/></svg><span>Live GPS Map</span></button>
+      <button class="nav-item" data-view="dashboard"><svg><use href="#i-chart"/></svg><span>Dashboard</span></button>
+      <button class="nav-item" data-view="users"><svg><use href="#i-user"/></svg><span>User Management</span></button>
+      <button class="nav-item" data-view="routes"><svg><use href="#i-route"/></svg><span>Smart Routes</span></button>
+      <button class="nav-item" data-view="dispatch"><svg><use href="#i-dispatch"/></svg><span>Dispatch &amp; Drivers</span></button>
+      <button class="nav-item" data-view="fuel"><svg><use href="#i-fuel"/></svg><span>Fuel &amp; Idle</span></button>
+      <button class="nav-item" data-view="driver"><svg><use href="#i-phone"/></svg><span>Driver App</span></button>
+      <button class="nav-item" data-view="reports"><svg><use href="#i-chart"/></svg><span>Fleet Reports</span></button>
+    </nav>
+    <div class="side-bottom">
+      <div class="sim-badge"><span class="pulse"></span><div><strong>Simulation Live</strong><small id="simClock">--:--:--</small></div></div>
+      <button class="side-btn" id="resetBtn"><svg><use href="#i-refresh"/></svg> Reset demo data</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="icon-btn menu" id="menuBtn" aria-label="Menu"><svg><use href="#i-map"/></svg></button>
+      <div><h2 id="pageTitle">Live GPS Map</h2><p id="pageSubtitle">Real-time fleet visibility across 50 delivery vehicles</p></div>
+      <div class="top-actions">
+        <span class="live-chip"><span class="dot"></span> LIVE SIMULATION</span>
+        <button class="icon-btn bell" id="bellBtn" title="Alerts"><svg><use href="#i-bell"/></svg><span class="bell-count" id="bellCount">0</span></button>
+        <div class="admin-chip" id="adminChip"><span class="avatar sm" id="adminAvatar">AD</span><span class="admin-name" id="adminName">Admin</span><span class="role-mini" id="roleMini">ADMIN</span><button class="admin-logout" id="logoutBtn" title="Log out"><svg><use href="#i-logout"/></svg></button></div>
+      </div>
+    </header>
+
+    <div id="notifDrawer" class="notif-drawer hidden">
+      <div class="notif-head"><div><span class="banner-kicker">NOTIFICATION CENTER</span><h3>Activity &amp; confirmations</h3></div><button class="icon-btn" id="notifClose" title="Close">×</button></div>
+      <div class="notif-tools"><span id="notifSubtitle">Departure, arrival, and delivery confirmations</span><button class="link-btn" id="notifReadAll">Mark all as read</button></div>
+      <div id="notifList" class="notif-list"></div>
+    </div>
+
+    <main class="content">
+
+      <!-- ===== DASHBOARD ===== -->
+      <section id="view-dashboard" class="view">
+        <div class="banner">
+          <div><span class="banner-kicker">FLEET CONTROL OVERVIEW</span><h3>Good day, Admin — here is today's operation.</h3><p>Live departure, delivery, and notification status across the GreenLeaf fleet.</p></div>
+          <div class="banner-actions"><button class="btn btn-ghost btn-sm" id="syncNowDash" title="Refresh deliveries from the driver device"><svg><use href="#i-refresh"/></svg> Sync now</button><button class="btn btn-hero" data-go="reports"><svg><use href="#i-chart"/></svg> Open Fleet Reports</button></div>
+        </div>
+        <div class="kpi-grid" id="dashboardKpis"></div>
+        <div class="grid-2">
+          <div class="card"><div class="card-head"><div><h3>Recent Activity</h3><p class="muted">Departure → arrival → delivery confirmations</p></div><span class="chip" id="dashUnread">0 unread</span></div><div id="activityFeed" class="activity-feed"></div></div>
+          <div class="card"><div class="card-head"><div><h3>Delivery Status</h3><p class="muted">Latest synced jobs from the Driver App</p></div><button class="link-btn" data-go="reports">View all →</button></div><div id="dashDeliveries" class="dash-deliveries"></div></div>
+        </div>
+        <div class="card"><div class="card-head"><div><h3>Load &amp; Truck Fit Statistics</h3><p class="muted">Recommended truck class based on delivered cargo weight</p></div><span class="chip" id="heavyLoadChip">0 heavy loads</span></div><div id="loadStats" class="load-stats"></div></div>
+        <div class="card gensan-card"><div class="card-head wrap"><div><h3>Latest Delivery Report</h3><p class="muted">Same Google Maps destination the driver saw, synced after completion</p></div><span class="chip ok" id="dashReportChip">No delivery yet</span></div><div id="deliveryReport" class="delivery-report"></div></div>
+        <div class="card"><div class="card-head"><h3>Quick Actions</h3></div><div class="quick-actions">
+          <button class="btn btn-ghost" data-go="map"><svg><use href="#i-map"/></svg> Live GPS Map</button>
+          <button class="btn btn-ghost" data-go="driver"><svg><use href="#i-phone"/></svg> Driver App</button>
+          <button class="btn btn-ghost" data-go="users"><svg><use href="#i-user"/></svg> User Management</button>
+          <button class="btn btn-ghost" data-go="reports"><svg><use href="#i-download"/></svg> Reports &amp; exports</button>
+        </div></div>
+      </section>
+
+      <!-- ===== USER MANAGEMENT ===== -->
+      <section id="view-users" class="view">
+        <div class="kpi-grid" id="userKpis"></div>
+        <div class="card">
+          <div class="card-head wrap"><div><h3>User Accounts</h3><p class="muted">Simulated accounts — changes persist in this browser</p></div><span class="chip" id="userCountChip">0 users</span></div>
+          <div class="table-wrap"><table class="table" id="userTable"></table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><h3>Add New User</h3><p class="muted">Create an admin, dispatcher, or driver account for the demo</p></div></div>
+          <form id="userForm" class="user-form">
+            <label class="field">Full name<input name="name" class="mini-input" required placeholder="e.g. Ana Reyes"></label>
+            <label class="field">Email / username<input name="email" class="mini-input" required placeholder="e.g. ana"></label>
+            <label class="field">Password<input name="pass" class="mini-input" required placeholder="demo password"></label>
+            <label class="field">Role<select name="role" class="select full"><option>Dispatcher</option><option>Admin</option><option>Driver</option></select></label>
+            <label class="field">Linked driver<select name="driverId" class="select full"><option value="">— None —</option></select></label>
+            <button class="btn btn-primary" type="submit"><svg><use href="#i-user"/></svg> Create User</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ===== LIVE MAP ===== -->
+      <section id="view-map" class="view active">
+        <div class="kpi-grid" id="mapKpis"></div>
+        <div class="map-layout">
+          <div class="card map-card">
+            <div class="card-head">
+              <div><h3>Fleet Map — Metro Service Area <span class="chip" id="mapDeliveredChip">0 delivered</span></h3><p class="muted">Simulated GPS positions updating every second</p></div>
+              <div class="toolbar">
+                <select id="mapFilter" class="select"><option value="all">All vehicles</option><option value="route">On route only</option><option value="idle">Idle only</option><option value="low">Low fuel only</option></select>
+                <button class="btn btn-ghost btn-sm" id="pauseBtn"><svg><use href="#i-pause"/></svg> Pause</button>
+              </div>
+            </div>
+            <div class="map-wrap" id="mapWrap">
+              <svg id="fleetMap" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M50 0H0V50" fill="none" stroke="#dce8df" stroke-width="1"/></pattern>
+                  <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                </defs>
+                <rect width="1000" height="600" fill="#eef5ef"/>
+                <rect width="1000" height="600" fill="url(#grid)"/>
+                <g id="mapZones"></g>
+                <g id="mapRoads"></g>
+                <g id="mapRoutes"></g>
+                <g id="mapDepot"></g>
+                <g id="truckMarkers"></g>
+              </svg>
+              <div class="map-legend"><span><i class="lg green"></i> On route</span><span><i class="lg amber"></i> Idle</span><span><i class="lg red"></i> Low fuel</span><span><i class="lg blue"></i> Depot</span></div>
+              <div class="map-hint">Click a truck to see it + its driver · click a driver name to locate the truck</div>
+              <div id="mapInfo" class="map-info"></div>
+            </div>
+          </div>
+
+          <div class="side-stack">
+            <div class="card selected-card">
+              <div class="card-head"><h3 id="selTitle">Vehicle Details</h3></div>
+              <div id="selBody" class="sel-body"></div>
+            </div>
+            <div class="card feed-card">
+              <div class="card-head"><h3>Live Alerts</h3><span class="chip warn" id="alertCount">0</span></div>
+              <div id="alertFeed" class="alert-feed"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head wrap"><div><h3>Vehicle Status Board</h3><p class="muted">All 50 vehicles in the GreenLeaf fleet</p></div>
+            <div class="toolbar"><div class="search-box"><svg><use href="#i-search"/></svg><input id="vehicleSearch" type="search" placeholder="Search truck, plate, driver..."></div></div>
+          </div>
+          <div class="table-wrap"><table class="table" id="vehicleTable"></table></div>
+          <div class="table-foot" id="vehicleFoot"></div>
+        </div>
+      </section>
+
+      <!-- ===== ROUTES ===== -->
+      <section id="view-routes" class="view">
+        <div class="banner">
+          <div><span class="banner-kicker">SMART AI ROUTE PLANNING</span><h3 id="routeBannerTitle">Optimize the fleet. Cut the fuel bill.</h3><p id="routeBannerText">Run the optimizer to compare current routes against AI-planned routes.</p></div>
+          <button class="btn btn-hero" id="optimizeBtn"><svg><use href="#i-route"/></svg> Optimize All Routes</button>
+        </div>
+        <div class="kpi-grid" id="routeKpis"></div>
+        <div class="section-title"><h3>Planned Routes</h3><p class="muted">8 active delivery routes across the metro service area</p></div>
+        <div class="route-grid" id="routeGrid"></div>
+      </section>
+
+      <!-- ===== DISPATCH ===== -->
+      <section id="view-dispatch" class="view">
+        <div class="kpi-grid" id="dispatchKpis"></div>
+        <div class="card">
+          <div class="card-head wrap"><div><h3>Dispatch Board</h3><p class="muted">Assign drivers, set shifts, and dispatch vehicles</p></div>
+            <div class="toolbar"><button class="btn btn-ghost btn-sm" id="autoAssignBtn"><svg><use href="#i-user"/></svg> Auto-assign drivers</button></div>
+          </div>
+          <div class="table-wrap"><table class="table" id="dispatchTable"></table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>Driver Roster</h3><p class="muted">Availability and assigned shifts</p></div>
+          <div class="table-wrap"><table class="table" id="driverTable"></table></div>
+        </div>
+      </section>
+
+      <!-- ===== FUEL ===== -->
+      <section id="view-fuel" class="view">
+        <div class="kpi-grid" id="fuelKpis"></div>
+        <div class="grid-2">
+          <div class="card"><div class="card-head"><div><h3>Top Idle Vehicles</h3><p class="muted">Idle minutes recorded today</p></div><span class="chip warn"><svg><use href="#i-clock"/></svg> Idle time</span></div><div id="idleChart" class="hbars"></div></div>
+          <div class="card"><div class="card-head"><div><h3>Fuel Level Monitor</h3><p class="muted">Vehicles below 30% need refueling</p></div></div><div id="fuelList" class="fuel-list"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>Fuel &amp; Idle Log</h3><p class="muted">Per-vehicle consumption and estimated cost</p></div>
+          <div class="table-wrap"><table class="table" id="fuelTable"></table></div>
+        </div>
+      </section>
+
+      <!-- ===== DRIVER APP ===== -->
+      <section id="view-driver" class="view">
+        <div class="driver-layout">
+          <div class="phone-shell">
+            <div class="phone-notch"></div>
+            <div class="phone-screen" id="phoneScreen"></div>
+          </div>
+          <div class="driver-side">
+            <div class="card"><div class="card-head"><h3>Driver Mobile App</h3><p class="muted">Simulated Samsara Driver App experience</p></div>
+              <label class="field">Choose driver<select id="driverSelect" class="select full"></select></label>
+              <p class="muted small">Select a driver, then accept a job and start navigation. Actions here update the fleet dashboard in real time.</p>
+            </div>
+            <div class="card"><div class="card-head"><h3>App Walkthrough</h3></div>
+              <ol class="walk"><li>Pick a driver from the dropdown.</li><li>Tap <b>Accept Job</b> then <b>Start Navigation</b> — departure time is recorded.</li><li>Tap <b>Mark Arrived</b> — an arrival confirmation is sent to admin.</li><li>Tap <b>Complete Delivery</b> — delivered time, destination, and Google Maps pin sync to admin.</li><li>Use <b>Check In</b> and <b>Log Fuel</b> for the other driver actions.</li></ol>
+            </div>
+          </div>
+        </div>
+        <div class="card gensan-card">
+          <div class="card-head wrap"><div><h3>Delivery Map — General Santos City</h3><p class="muted">Real Google Maps view of your assigned delivery destination</p></div><span class="chip" id="driverMapChip">0 delivered</span></div>
+          <div class="gensan-wrap" id="driverGensanMap"></div>
+          <div class="gensan-legend"><span><i class="lg blue"></i> Google Maps destination</span><span><i class="lg green"></i> Delivery confirmed</span><small>Open directions for the route from Dadiangas depot</small></div>
+        </div>
+      </section>
+
+      <!-- ===== REPORTS ===== -->
+      <section id="view-reports" class="view">
+        <div class="card">
+          <div class="card-head wrap"><div><h3>Fleet Performance Reports</h3><p class="muted">Consolidated metrics from the simulation</p></div>
+            <div class="toolbar"><label class="date-field">From <input type="date" id="repFrom" class="mini-input"></label><label class="date-field">To <input type="date" id="repTo" class="mini-input"></label></div>
+          </div>
+          <div class="kpi-grid" id="reportKpis"></div>
+        </div>
+        <div class="grid-2">
+          <div class="card"><div class="card-head"><h3>Fuel Cost by Day</h3></div><div id="costChart" class="chart"></div></div>
+          <div class="card"><div class="card-head"><h3>Route Efficiency</h3><p class="muted">Fuel saved after optimization</p></div><div id="effChart" class="hbars"></div></div>
+        </div>
+        <div class="card gensan-card">
+          <div class="card-head wrap"><div><h3>Delivery Coverage — General Santos City</h3><p class="muted">Real Google Maps pin for the latest delivery synced from the Driver App</p></div><span class="chip" id="adminMapChip">0 delivered</span></div>
+          <div class="gensan-wrap" id="adminGensanMap"></div>
+          <div class="gensan-legend"><span><i class="lg green"></i> Latest delivered pin</span><span><i class="lg blue"></i> Google Maps</span><small>Use the directions link to see the route from Dadiangas depot</small></div>
+        </div>
+        <div class="card">
+          <div class="card-head wrap"><div><h3>Completed Deliveries</h3><p class="muted">Synced from the Driver App — admin view</p></div><div class="toolbar"><span class="chip" id="deliveredCountChip">0 delivered</span><button class="btn btn-ghost btn-sm" id="syncNowReports"><svg><use href="#i-refresh"/></svg> Sync now</button></div></div>
+          <div class="table-wrap"><table class="table" id="deliveryTable"></table></div>
+        </div>
+        <div class="card">
+          <div class="card-head wrap"><div><h3>Truck Status Report</h3><p class="muted">Live count and percentage by vehicle status</p></div><div class="toolbar"><button class="btn btn-ghost btn-sm" id="exportTruckStatus"><svg><use href="#i-download"/></svg> Truck Status CSV</button></div></div>
+          <div id="truckStatusTable" class="table-wrap"></div>
+        </div>
+        <div class="card gensan-card">
+          <div class="card-head wrap"><div><h3>Delivery Completion Report</h3><p class="muted">Latest completed job from the Driver App — map and full timeline</p></div><span class="chip ok" id="adminReportChip">No delivery yet</span></div>
+          <div id="deliveryReportAdmin" class="delivery-report"></div>
+        </div>
+        <div class="card">
+          <div class="card-head wrap"><div><h3>Alert History</h3></div><div class="toolbar">
+            <button class="btn btn-ghost btn-sm" id="exportVehicles"><svg><use href="#i-download"/></svg> Vehicles CSV</button>
+            <button class="btn btn-ghost btn-sm" id="exportRoutes"><svg><use href="#i-download"/></svg> Routes CSV</button>
+            <button class="btn btn-ghost btn-sm" id="exportAlerts"><svg><use href="#i-download"/></svg> Alerts CSV</button>
+            <button class="btn btn-ghost btn-sm" id="exportDeliveries"><svg><use href="#i-download"/></svg> Deliveries CSV</button>
+          </div></div>
+          <div class="table-wrap"><table class="table" id="alertTable"></table></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<div id="toastRoot" class="toast-root"></div>
+<script src="app.js"></script>
+</body>
+</html>
